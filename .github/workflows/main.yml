@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repo utama
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -16,20 +16,18 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install ClawHub
-        run: npm install -g clawhub
-
-      - name: Install Verified Agent Identity
-        run: clawhub install verified-agent-identity
+      - name: Clone Verified Agent Identity repo
+        run: git clone https://github.com/jancoyxtzy88/verified-agent-identity.git
 
       - name: Install dependencies
         run: |
-          cd scripts
+          cd verified-agent-identity/scripts
           npm install
 
       - name: Create Ethereum Identity
-        run: node scripts/createNewEthereumIdentity.js
+        run: node verified-agent-identity/scripts/createNewEthereumIdentity.js
 
       - name: Link Human to Agent
         run: |
-          node scripts/manualLinkHumanToAgent.js --challenge '{"name":"jancoyxtzy88","description":"jancoyxtzy88 AI Agent"}'
+          node verified-agent-identity/scripts/manualLinkHumanToAgent.js \
+          --challenge '{"name":"jancoyxtzy88","description":"jancoyxtzy88 AI Agent"}'
